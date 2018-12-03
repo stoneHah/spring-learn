@@ -7,6 +7,7 @@ public class NativeWaiter implements Waiter {
     @Override
     public void greetTo(String name) {
         System.out.println("greet to " + name + "...");
+        serveTo(name);
     }
 
     @Override
