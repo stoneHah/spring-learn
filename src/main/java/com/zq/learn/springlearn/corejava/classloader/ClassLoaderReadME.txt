@@ -1,0 +1,9 @@
+类加载器分
+    1、根类加载器
+        由C++语言编写。主要负责加载核心类库，如：rt.jar,charsets.jar
+    2、ExtClassLoader扩展类加载器
+        加载扩展目录ext中的JAR类包
+    3、AppClassLoader应用类加载器
+        加载classpath路径中的类包
+    JVM装载类时采用全盘负责委托的机制，"全盘负责"是指如果一个classloader在加载类时，除非显示指定一个classloader,否则这个类相关的一来类
+    全部由本省的classloader进行加载。"委托"是指先委托父类加载器进行加载，如果加载不到的化，则有自己进行加载，这样的设计是从安全性上进行考虑

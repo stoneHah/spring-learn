@@ -1,0 +1,39 @@
+Condition条件化配置bean
+
+这功能是Spring4才开始引入的。可以根据条件来决定是否要实例化bean
+
+比如我们可以根据Environment中是否包含某个属性，或者类路径中是否包含mongo来决定实例化相关的bean
+
+1、用法
+	在方法上标注@Condition注解，容器在实例化bean的时候会根据此注解上的Condition来判断是否实例化
+	@Bean
+	@Conditional(MagicExistsCondition.class)
+	public MagicBean magicBean(){
+		return new MagicBean("magic bean");
+	}
+
+	//==================Condition的实现================
+	import org.springframework.context.annotation.Condition;
+	import org.springframework.context.annotation.ConditionContext;
+	import org.springframework.core.env.Environment;
+	import org.springframework.core.type.AnnotatedTypeMetadata;
+
+	public class MagicExistsCondition implements Condition{
+
+	/**
+	 * 1、通过ConditionContext， 我们可以做到如下几点
+		 * 	借助getRegistry()返回的BeanDefinitionRegistry检查bean定义；
+			借助getBeanFactory()返回的ConfigurableListableBeanFactory检查bean是否存在， 甚至探查bean的属性；
+			借助getEnvironment()返回的Environment检查环境变量是否存在以及它的值是什么；
+			读取并探查getResourceLoader()返回的ResourceLoader所加载的资源；
+			借助getClassLoader()返回的ClassLoader加载并检查类是否存在。
+		2、AnnotatedTypeMetadata则能够让我们检查带有@Bean注解的方法上还有什么其他的注解。 像ConditionContext一样，
+		   AnnotatedTypeMetadata也是一个接口。
+	 */
+	@Override
+	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+		Environment environment = context.getEnvironment();
+		return environment.containsProperty("magic");
+	}
+}
+***********spring boot中的自动化配置就使用了此技术************
