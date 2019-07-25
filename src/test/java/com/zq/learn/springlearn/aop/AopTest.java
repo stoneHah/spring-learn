@@ -13,5 +13,7 @@ public class AopTest {
         for (String beanName : beanNames) {
             System.out.println(beanName);
         }
+
+
     }
 }
