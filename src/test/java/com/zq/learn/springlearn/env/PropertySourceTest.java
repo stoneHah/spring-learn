@@ -40,6 +40,9 @@ public class PropertySourceTest {
         assertEquals("chenye",mapSource.getProperty("hello"));
     }
 
+    /**
+     * 通过 addLast、addFist方法设置属性源的优先级
+     */
     @Test
     public void testPropertySources(){
         MapPropertySource systemPropertySource = new MapPropertySource("systemProperties", (Map) System.getProperties());
